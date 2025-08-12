@@ -1,0 +1,3 @@
+This software is provided "as is", without warranty of any kind. You are free to use, modify, and distribute this software for personal or commercial use, provided that you retain this notice.
+
+Third-party trademarks and brand names belong to their respective owners.
