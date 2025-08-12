@@ -13,11 +13,8 @@ class OrderProcessor
         }
         $client = new ApiClient($order['base_url'], $order['api_key']);
         $inputData = json_decode((string)$order['input_data'], true) ?: [];
-        $payload = [
-            'service_id' => $order['remote_service_id'] ?? '',
-            'input' => $inputData['input'] ?? '',
-        ];
-        $res = $client->post('/orders', $payload);
+        $placePath = \App\Core\Settings::get('dhru_place_order_path', '/orders');
+        $res = $client->placeOrder($placePath, (string)($order['remote_service_id'] ?? ''), (string)($inputData['input'] ?? ''));
         $remoteId = (string)($res['id'] ?? $res['order_id'] ?? '');
         $remoteStatus = (string)($res['status'] ?? 'processing');
         if ($remoteId) {
@@ -32,7 +29,9 @@ class OrderProcessor
         $order = DB::fetch('SELECT o.*, ap.base_url, ap.api_key FROM orders o JOIN apis ap ON ap.id = o.api_id WHERE o.id = :id AND o.api_order_id IS NOT NULL', ['id' => $orderId]);
         if (!$order) { return; }
         $client = new ApiClient($order['base_url'], $order['api_key']);
-        $res = $client->get('/orders/' . urlencode((string)$order['api_order_id']));
+        $statusPath = \App\Core\Settings::get('dhru_order_status_path', '/orders/{id}');
+        $statusPath = str_replace('{id}', urlencode((string)$order['api_order_id']), $statusPath);
+        $res = $client->orderStatus($statusPath);
         $remoteStatus = (string)($res['status'] ?? 'processing');
         $result = $res['result'] ?? null;
         DB::query('UPDATE orders SET status = :st, result_data = :res, updated_at = NOW() WHERE id = :id', [

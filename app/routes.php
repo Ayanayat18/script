@@ -36,6 +36,7 @@ $router->get('/admin/orders', 'Admin\\OrdersController@index');
 $router->get('/admin/wallet', 'Admin\\WalletController@index');
 $router->get('/admin/reports', 'Admin\\ReportsController@index');
 $router->get('/admin/settings', 'Admin\\SettingsController@index');
+$router->post('/admin/settings/save', 'Admin\\SettingsController@save');
 $router->get('/admin/logs', 'Admin\\LogsController@index');
 
 // User

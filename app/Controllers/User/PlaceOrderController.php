@@ -35,6 +35,11 @@ class PlaceOrderController extends Controller
         $user = DB::fetch('SELECT wallet_balance, price_markup_percent FROM users WHERE id = :id FOR UPDATE', ['id' => Auth::id()]);
         $price = (float)$service['price'] * (1 + (float)$user['price_markup_percent'] / 100);
         $price = round($price, 2);
+        $minBalance = (float) \App\Core\Settings::get('min_balance', '0');
+        if ((float)$user['wallet_balance'] < max($minBalance, $price)) {
+            $this->render('user/orders/place.php', ['error' => 'Insufficient balance (minimum required: $' . number_format(max($minBalance,$price),2) . ')'], 'user');
+            return;
+        }
         $pdo = DB::pdo();
         $pdo->beginTransaction();
         try {

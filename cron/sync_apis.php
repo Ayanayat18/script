@@ -17,7 +17,8 @@ try {
     foreach ($apis as $api) {
         $client = new App\Services\ApiClient($api['base_url'], $api['api_key']);
         try {
-            $list = $client->fetchServices();
+            $path = App\Core\Settings::get('dhru_services_path', '/services');
+            $list = $client->fetchServices($path);
             if (isset($list['data']) && is_array($list['data'])) { $list = $list['data']; }
             foreach ($list as $item) {
                 $remoteId = (string)($item['id'] ?? $item['service_id'] ?? '');

@@ -57,9 +57,21 @@ class ApiClient
         return is_array($json) ? $json : [];
     }
 
-    public function fetchServices(): array
+    public function fetchServices(string $path = '/services'): array
     {
-        // Placeholder: provider-specific endpoint mapping
-        return $this->get('/services');
+        return $this->get($path);
+    }
+
+    public function placeOrder(string $path, string $remoteServiceId, string $input): array
+    {
+        return $this->post($path, [
+            'service_id' => $remoteServiceId,
+            'input' => $input,
+        ]);
+    }
+
+    public function orderStatus(string $pathWithId): array
+    {
+        return $this->get($pathWithId);
     }
 }
