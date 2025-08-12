@@ -54,6 +54,7 @@ class PlaceOrderController extends Controller
             // Attempt API submission (non-blocking best-effort)
             try { \App\Services\OrderProcessor::submitToApi($orderId); } catch (\Throwable $e) { /* ignore */ }
             $pdo->commit();
+            \App\Core\Notifier::notify(Auth::id(), 'Order Placed', 'Your order #' . $orderId . ' has been created.');
             $this->redirect('/orders');
         } catch (\Throwable $e) {
             if ($pdo->inTransaction()) { $pdo->rollBack(); }

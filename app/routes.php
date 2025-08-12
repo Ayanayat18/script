@@ -32,6 +32,7 @@ $router->get('/dashboard', 'User\\DashboardController@index');
 $router->get('/orders', 'User\\OrdersController@index');
 $router->get('/wallet', 'User\\WalletController@index');
 $router->post('/wallet/add', 'User\\WalletController@addFunds');
+$router->get('/wallet/callback', 'User\\WalletController@callback');
 $router->get('/services', 'User\\ServicesController@index');
 $router->get('/place-order', 'User\\PlaceOrderController@form');
 $router->post('/place-order', 'User\\PlaceOrderController@submit');

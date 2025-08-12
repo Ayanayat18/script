@@ -16,7 +16,14 @@
           <div class="input-group">
             <span class="input-group-text">$</span>
             <input type="number" name="amount" class="form-control" step="0.01" min="1" value="10" required>
-            <button class="btn btn-primary" type="submit">PayPal</button>
+            <select name="method" class="form-select" style="max-width: 180px;">
+              <option value="paypal">PayPal</option>
+              <option value="bkash">Bkash</option>
+              <option value="nagad">Nagad</option>
+              <option value="rocket">Rocket</option>
+              <option value="binance">Binance Pay</option>
+            </select>
+            <button class="btn btn-primary" type="submit">Add Funds</button>
           </div>
         </form>
       </div>
