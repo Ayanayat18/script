@@ -33,7 +33,19 @@ $router->get('/orders', 'User\\OrdersController@index');
 $router->get('/wallet', 'User\\WalletController@index');
 $router->post('/wallet/add', 'User\\WalletController@addFunds');
 $router->get('/services', 'User\\ServicesController@index');
+$router->get('/place-order', 'User\\PlaceOrderController@form');
+$router->post('/place-order', 'User\\PlaceOrderController@submit');
+$router->get('/notifications', 'User\\NotificationsController@index');
 $router->get('/profile', 'User\\ProfileController@index');
 $router->get('/subscriptions', 'User\\SubscriptionsController@index');
 $router->get('/support', 'User\\SupportController@index');
 $router->post('/support/send', 'User\\SupportController@send');
+
+// Admin extra actions
+$router->get('/admin/wallet/adjust', 'Admin\\WalletController@adjustForm');
+$router->post('/admin/wallet/adjust', 'Admin\\WalletController@adjust');
+$router->get('/admin/users/subscription', 'Admin\\UsersController@subscriptionForm');
+$router->post('/admin/users/subscription', 'Admin\\UsersController@updateSubscription');
+$router->get('/admin/services/map', 'Admin\\ServicesController@mapForm');
+$router->post('/admin/services/map', 'Admin\\ServicesController@mapSave');
+$router->post('/admin/services/sync-prices', 'Admin\\ServicesController@syncPrices');
