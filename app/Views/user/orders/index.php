@@ -24,3 +24,6 @@
     </tbody>
   </table>
 </div>
+<div class="mt-3">
+  <?= App\Core\Pagination::render((int)($page ?? 1), (int)($pages ?? 1)) ?>
+</div>

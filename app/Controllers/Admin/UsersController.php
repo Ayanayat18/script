@@ -4,16 +4,29 @@ namespace App\Controllers\Admin;
 use App\Core\Controller;
 use App\Core\DB;
 use App\Core\CSRF;
+use App\Core\Pagination;
 
 class UsersController extends Controller
 {
     public function index(): void
     {
         $this->requireRole(['admin', 'super_admin']);
-        $users = DB::fetchAll('SELECT id, name, email, role, status, wallet_balance, price_markup_percent, subscription_expires_at, created_at FROM users ORDER BY id DESC');
+        $q = trim((string)($_GET['q'] ?? ''));
+        $where = '1=1';
+        $params = [];
+        if ($q !== '') {
+            $where .= ' AND (email LIKE :q OR name LIKE :q)';
+            $params['q'] = '%' . $q . '%';
+        }
+        $total = (int)(DB::fetch('SELECT COUNT(*) c FROM users WHERE ' . $where, $params)['c'] ?? 0);
+        $pg = Pagination::resolve($total, 25);
+        $users = DB::fetchAll('SELECT id, name, email, role, status, wallet_balance, price_markup_percent, subscription_expires_at, created_at FROM users WHERE ' . $where . ' ORDER BY id DESC LIMIT :lim OFFSET :off', array_merge($params, ['lim' => $pg['perPage'], 'off' => $pg['offset']]));
         $this->render('admin/users/index', [
             'title' => 'Users',
             'users' => $users,
+            'q' => $q,
+            'page' => $pg['page'],
+            'pages' => $pg['pages'],
         ], 'admin');
     }
 

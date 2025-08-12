@@ -1,6 +1,10 @@
 <?php use App\Core\View; ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h4 class="mb-0">Users</h4>
+  <form class="d-flex" method="get" action="/admin/users">
+    <input name="q" class="form-control form-control-sm me-2" placeholder="Search name/email" value="<?= View::e($q ?? '') ?>">
+    <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
+  </form>
 </div>
 <div class="table-responsive">
   <table class="table table-striped align-middle">
@@ -37,4 +41,7 @@
       <?php endforeach; ?>
     </tbody>
   </table>
+</div>
+<div class="mt-3">
+  <?= App\Core\Pagination::render((int)($page ?? 1), (int)($pages ?? 1)) ?>
 </div>
