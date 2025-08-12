@@ -11,9 +11,13 @@ if (php_sapi_name() !== 'cli') {
 }
 
 try {
-    // TODO: poll provider APIs and update local order statuses
-    DB::insert('INSERT INTO cron_logs (job, status, message, ran_at) VALUES (?,?,?,NOW())', ['update-orders', 'ok', 'Update completed']);
-    echo "Update Orders: done\n";
+    $orders = DB::fetchAll("SELECT id FROM orders WHERE api_id IS NOT NULL AND api_order_id IS NOT NULL AND status IN ('pending','processing','partial') ORDER BY id DESC LIMIT 200");
+    $count = 0;
+    foreach ($orders as $o) {
+        try { App\Services\OrderProcessor::refreshOrder((int)$o['id']); $count++; } catch (\Throwable $e) {}
+    }
+    DB::insert('INSERT INTO cron_logs (job, status, message, ran_at) VALUES (?,?,?,NOW())', ['update-orders', 'ok', 'Updated: ' . $count]);
+    echo "Update Orders: {$count}\n";
 } catch (Throwable $e) {
     DB::insert('INSERT INTO cron_logs (job, status, message, ran_at) VALUES (?,?,?,NOW())', ['update-orders', 'error', $e->getMessage()]);
     echo "Error: " . $e->getMessage() . "\n";

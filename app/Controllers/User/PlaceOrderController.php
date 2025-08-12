@@ -51,6 +51,8 @@ class PlaceOrderController extends Controller
             $orderId = DB::insert('INSERT INTO orders (user_id, service_id, status, input_data, price, created_at, updated_at) VALUES (:uid,:sid,\'pending\',:inp,:price,NOW(),NOW())', [
                 'uid' => Auth::id(), 'sid' => $serviceId, 'inp' => json_encode(['input' => $input]), 'price' => $price,
             ]);
+            // Attempt API submission (non-blocking best-effort)
+            try { \App\Services\OrderProcessor::submitToApi($orderId); } catch (\Throwable $e) { /* ignore */ }
             $pdo->commit();
             $this->redirect('/orders');
         } catch (\Throwable $e) {
