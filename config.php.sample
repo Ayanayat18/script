@@ -1,0 +1,41 @@
+<?php
+// Copy this file to config.php after installation or let the installer generate it.
+
+// Database
+const DB_HOST = 'localhost';
+const DB_NAME = 'your_database';
+const DB_USER = 'your_db_user';
+const DB_PASS = 'your_db_pass';
+const DB_CHARSET = 'utf8mb4';
+
+// App
+const APP_ENV = 'production'; // or 'development'
+const APP_DEBUG = false;
+const APP_URL = 'https://example.com';
+const SITE_NAME = 'GSM Theme Clone';
+
+// Security
+const APP_KEY = 'change_this_to_a_random_32_char_string';
+const SESSION_NAME = 'gsm_app_session';
+const CSRF_TOKEN_KEY = 'csrf_token';
+
+// Mail (PHPMailer or fallback mail())
+const MAIL_DRIVER = 'smtp'; // smtp|mail
+const MAIL_HOST = 'smtp.example.com';
+const MAIL_PORT = 587;
+const MAIL_ENCRYPTION = 'tls'; // tls|null
+const MAIL_USERNAME = 'user@example.com';
+const MAIL_PASSWORD = 'smtp_password';
+const MAIL_FROM_ADDRESS = 'no-reply@example.com';
+const MAIL_FROM_NAME = 'GSM Theme';
+
+// Telegram Notifications
+const TELEGRAM_BOT_TOKEN = '';
+const TELEGRAM_CHAT_ID = '';
+
+// Admin Panel
+const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
+const DEFAULT_ADMIN_PASSWORD = 'Password@123';
+
+// Cron secret for HTTP triggers
+const CRON_SECRET = 'set_a_long_random_secret';
