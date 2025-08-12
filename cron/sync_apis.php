@@ -19,7 +19,8 @@ try {
         try {
             $path = App\Core\Settings::get('dhru_services_path', '/services');
             $list = $client->fetchServices($path);
-            if (isset($list['data']) && is_array($list['data'])) { $list = $list['data']; }
+            $listKey = App\Core\Settings::get('dhru_services_list_key', 'data');
+            if (isset($list[$listKey]) && is_array($list[$listKey])) { $list = $list[$listKey]; }
             foreach ($list as $item) {
                 $remoteId = (string)($item['id'] ?? $item['service_id'] ?? '');
                 $name = (string)($item['name'] ?? $item['service'] ?? '');

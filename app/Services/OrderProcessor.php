@@ -14,9 +14,18 @@ class OrderProcessor
         $client = new ApiClient($order['base_url'], $order['api_key']);
         $inputData = json_decode((string)$order['input_data'], true) ?: [];
         $placePath = \App\Core\Settings::get('dhru_place_order_path', '/orders');
-        $res = $client->placeOrder($placePath, (string)($order['remote_service_id'] ?? ''), (string)($inputData['input'] ?? ''));
-        $remoteId = (string)($res['id'] ?? $res['order_id'] ?? '');
-        $remoteStatus = (string)($res['status'] ?? 'processing');
+        $serviceKey = \App\Core\Settings::get('dhru_req_service_key', 'service_id');
+        $inputKey = \App\Core\Settings::get('dhru_req_input_key', 'input');
+        // Send request honoring custom keys
+        $res = $client->post($placePath, [
+            $serviceKey => (string)($order['remote_service_id'] ?? ''),
+            $inputKey => (string)($inputData['input'] ?? ''),
+        ]);
+
+        $idKey = \App\Core\Settings::get('dhru_res_order_id_key', 'order_id');
+        $statusKey = \App\Core\Settings::get('dhru_res_status_key', 'status');
+        $remoteId = (string)($res['id'] ?? $res[$idKey] ?? '');
+        $remoteStatus = (string)($res[$statusKey] ?? 'processing');
         if ($remoteId) {
             DB::query('UPDATE orders SET api_id = :api, api_order_id = :rid, status = :st, updated_at = NOW() WHERE id = :id', [
                 'api' => $order['api_id'], 'rid' => $remoteId, 'st' => self::mapStatus($remoteStatus), 'id' => $orderId,
@@ -32,8 +41,10 @@ class OrderProcessor
         $statusPath = \App\Core\Settings::get('dhru_order_status_path', '/orders/{id}');
         $statusPath = str_replace('{id}', urlencode((string)$order['api_order_id']), $statusPath);
         $res = $client->orderStatus($statusPath);
-        $remoteStatus = (string)($res['status'] ?? 'processing');
-        $result = $res['result'] ?? null;
+        $statusKey = \App\Core\Settings::get('dhru_res_status_key', 'status');
+        $resultKey = \App\Core\Settings::get('dhru_res_result_key', 'result');
+        $remoteStatus = (string)($res[$statusKey] ?? 'processing');
+        $result = $res[$resultKey] ?? null;
         DB::query('UPDATE orders SET status = :st, result_data = :res, updated_at = NOW() WHERE id = :id', [
             'st' => self::mapStatus($remoteStatus),
             'res' => $result ? json_encode($result) : null,

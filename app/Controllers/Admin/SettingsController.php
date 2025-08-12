@@ -19,6 +19,12 @@ class SettingsController extends Controller
             'dhru_services_path' => Settings::get('dhru_services_path', '/services'),
             'dhru_place_order_path' => Settings::get('dhru_place_order_path', '/orders'),
             'dhru_order_status_path' => Settings::get('dhru_order_status_path', '/orders/{id}'),
+            'dhru_services_list_key' => Settings::get('dhru_services_list_key', 'data'),
+            'dhru_req_service_key' => Settings::get('dhru_req_service_key', 'service_id'),
+            'dhru_req_input_key' => Settings::get('dhru_req_input_key', 'input'),
+            'dhru_res_order_id_key' => Settings::get('dhru_res_order_id_key', 'order_id'),
+            'dhru_res_status_key' => Settings::get('dhru_res_status_key', 'status'),
+            'dhru_res_result_key' => Settings::get('dhru_res_result_key', 'result'),
         ], 'admin');
     }
 
@@ -30,6 +36,12 @@ class SettingsController extends Controller
         Settings::set('dhru_services_path', trim((string)($_POST['dhru_services_path'] ?? '/services')));
         Settings::set('dhru_place_order_path', trim((string)($_POST['dhru_place_order_path'] ?? '/orders')));
         Settings::set('dhru_order_status_path', trim((string)($_POST['dhru_order_status_path'] ?? '/orders/{id}')));
+        Settings::set('dhru_services_list_key', trim((string)($_POST['dhru_services_list_key'] ?? 'data')));
+        Settings::set('dhru_req_service_key', trim((string)($_POST['dhru_req_service_key'] ?? 'service_id')));
+        Settings::set('dhru_req_input_key', trim((string)($_POST['dhru_req_input_key'] ?? 'input')));
+        Settings::set('dhru_res_order_id_key', trim((string)($_POST['dhru_res_order_id_key'] ?? 'order_id')));
+        Settings::set('dhru_res_status_key', trim((string)($_POST['dhru_res_status_key'] ?? 'status')));
+        Settings::set('dhru_res_result_key', trim((string)($_POST['dhru_res_result_key'] ?? 'result')));
         $this->redirect('/admin/settings');
     }
 }

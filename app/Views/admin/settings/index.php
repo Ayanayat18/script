@@ -23,6 +23,35 @@
           <input name="dhru_order_status_path" class="form-control" value="<?= View::e($dhru_order_status_path) ?>">
           <div class="form-text">Use {id} placeholder for order ID.</div>
         </div>
+        <div class="mb-2 fw-bold">Dhru-like Keys</div>
+        <div class="mb-3">
+          <label class="form-label">Services List Key</label>
+          <input name="dhru_services_list_key" class="form-control" value="<?= View::e($dhru_services_list_key) ?>">
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Request Service Key</label>
+            <input name="dhru_req_service_key" class="form-control" value="<?= View::e($dhru_req_service_key) ?>">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Request Input Key</label>
+            <input name="dhru_req_input_key" class="form-control" value="<?= View::e($dhru_req_input_key) ?>">
+          </div>
+        </div>
+        <div class="row g-3 mt-1">
+          <div class="col-md-4">
+            <label class="form-label">Response Order ID Key</label>
+            <input name="dhru_res_order_id_key" class="form-control" value="<?= View::e($dhru_res_order_id_key) ?>">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Response Status Key</label>
+            <input name="dhru_res_status_key" class="form-control" value="<?= View::e($dhru_res_status_key) ?>">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Response Result Key</label>
+            <input name="dhru_res_result_key" class="form-control" value="<?= View::e($dhru_res_result_key) ?>">
+          </div>
+        </div>
       </div>
       <div class="card-footer text-end"><button class="btn btn-primary" type="submit">Save</button></div>
     </form>

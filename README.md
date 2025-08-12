@@ -36,6 +36,8 @@ Use the following examples, adjusting paths and PHP binary as needed.
 ```
 /usr/bin/php -q /home/USER/public_html/cron/update_orders.php
 ```
+
+Configure Dhru-like API paths and keys in Admin > Settings > Settings. Default keys assume responses like `{ "order_id": "123", "status": "processing", "result": {...} }` and services under `data`. Adjust if your provider uses different keys.
 - Daily subscription checks:
 ```
 /usr/bin/php -q /home/USER/public_html/cron/subscriptions_check.php
