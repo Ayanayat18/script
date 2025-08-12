@@ -47,4 +47,25 @@ class UsersController extends Controller
         }
         $this->redirect('/admin/users');
     }
+
+    public function editForm(): void
+    {
+        $this->requireRole(['admin', 'super_admin']);
+        $id = (int)($_GET['id'] ?? 0);
+        $user = DB::fetch('SELECT id, name, email, role, status, wallet_balance, price_markup_percent, subscription_expires_at FROM users WHERE id = :id', ['id' => $id]);
+        $this->render('admin/users/edit', ['title' => 'Edit User', 'user' => $user], 'admin');
+    }
+
+    public function update(): void
+    {
+        $this->requireRole(['admin', 'super_admin']);
+        if (!CSRF::validate($_POST['_token'] ?? '')) { http_response_code(419); echo 'Invalid token'; return; }
+        $id = (int)($_POST['id'] ?? 0);
+        $markup = (float)($_POST['price_markup_percent'] ?? 0);
+        $status = (int)($_POST['status'] ?? 1);
+        if ($id > 0) {
+            DB::query('UPDATE users SET price_markup_percent = :m, status = :s WHERE id = :id', ['m' => $markup, 's' => $status, 'id' => $id]);
+        }
+        $this->redirect('/admin/users');
+    }
 }

@@ -17,6 +17,8 @@ $router->post('/reset', 'AuthController@resetPassword');
 // Admin
 $router->get('/admin', 'Admin\\DashboardController@index');
 $router->get('/admin/users', 'Admin\\UsersController@index');
+$router->get('/admin/users/edit', 'Admin\\UsersController@editForm');
+$router->post('/admin/users/update', 'Admin\\UsersController@update');
 $router->get('/admin/services', 'Admin\\ServicesController@index');
 $router->get('/admin/categories', 'Admin\\ServiceCategoriesController@index');
 $router->get('/admin/categories/create', 'Admin\\ServiceCategoriesController@createForm');

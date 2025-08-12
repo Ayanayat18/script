@@ -16,8 +16,10 @@
         <th>Role</th>
         <th>Status</th>
         <th>Wallet</th>
+        <th>Markup %</th>
         <th>Subscription</th>
         <th>Created</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -35,8 +37,10 @@
             <?php endif; ?>
           </td>
           <td>$<?= number_format((float)$u['wallet_balance'], 2) ?></td>
+          <td><?= number_format((float)$u['price_markup_percent'], 2) ?></td>
           <td><?= View::e($u['subscription_expires_at'] ?: '-') ?></td>
           <td><?= View::e($u['created_at']) ?></td>
+          <td><a href="/admin/users/edit?id=<?= (int)$u['id'] ?>" class="btn btn-sm btn-outline-secondary">Edit</a></td>
         </tr>
       <?php endforeach; ?>
     </tbody>
