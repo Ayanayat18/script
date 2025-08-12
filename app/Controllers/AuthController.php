@@ -7,6 +7,7 @@ use App\Core\Auth;
 use App\Core\CSRF;
 use App\Core\View;
 use App\Core\Mailer;
+use App\Core\TOTP;
 
 class AuthController extends Controller
 {
@@ -28,6 +29,7 @@ class AuthController extends Controller
 
         $email = trim($_POST['email'] ?? '');
         $password = (string)($_POST['password'] ?? '');
+        $totp = trim($_POST['totp'] ?? '');
 
         $user = DB::fetch('SELECT * FROM users WHERE email = :email LIMIT 1', ['email' => $email]);
         if (!$user || !password_verify($password, $user['password_hash'])) {
@@ -37,6 +39,12 @@ class AuthController extends Controller
         if ((int)$user['status'] !== 1) {
             $this->render('auth/login', ['error' => 'Account is inactive or expired'], 'auth');
             return;
+        }
+        if (!empty($user['two_factor_secret'])) {
+            if ($totp === '' || !TOTP::verifyCode($user['two_factor_secret'], $totp)) {
+                $this->render('auth/login', ['error' => 'Invalid 2FA code'], 'auth');
+                return;
+            }
         }
 
         Auth::login($user);

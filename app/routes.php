@@ -19,6 +19,8 @@ $router->get('/admin', 'Admin\\DashboardController@index');
 $router->get('/admin/users', 'Admin\\UsersController@index');
 $router->get('/admin/services', 'Admin\\ServicesController@index');
 $router->get('/admin/apis', 'Admin\\ApisController@index');
+$router->get('/admin/apis/create', 'Admin\\ApisController@createForm');
+$router->post('/admin/apis/create', 'Admin\\ApisController@create');
 $router->get('/admin/orders', 'Admin\\OrdersController@index');
 $router->get('/admin/wallet', 'Admin\\WalletController@index');
 $router->get('/admin/reports', 'Admin\\ReportsController@index');

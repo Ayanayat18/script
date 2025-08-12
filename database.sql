@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
   role ENUM('super_admin','admin','reseller') NOT NULL DEFAULT 'reseller',
   status TINYINT(1) NOT NULL DEFAULT 1,
   wallet_balance DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+  price_markup_percent DECIMAL(5,2) NOT NULL DEFAULT 0.00,
   subscription_expires_at DATE DEFAULT NULL,
   two_factor_secret VARCHAR(32) DEFAULT NULL,
   reset_token VARCHAR(64) DEFAULT NULL,

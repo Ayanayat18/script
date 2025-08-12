@@ -15,6 +15,10 @@
     <label class="form-label">Password</label>
     <input type="password" name="password" class="form-control" required>
   </div>
+  <div class="mb-3">
+    <label class="form-label">2FA Code (if enabled)</label>
+    <input type="text" name="totp" class="form-control" inputmode="numeric" pattern="[0-9]*" maxlength="6">
+  </div>
   <div class="d-grid gap-2">
     <button class="btn btn-primary" type="submit">Login</button>
   </div>
